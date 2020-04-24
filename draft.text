@@ -1,0 +1,74 @@
+package asm.com.zjl.template;
+
+import java.util.*;
+
+import org.objectweb.asm.*;
+
+public class GridViewActivityTest$TestOnItemClickListenerDump implements Opcodes {
+
+    public static byte[] dump() throws Exception {
+
+        ClassWriter cw = new ClassWriter(0);
+        FieldVisitor fv;
+        MethodVisitor mv;
+        AnnotationVisitor av0;
+
+        cw.visit(V1_7, ACC_PUBLIC + ACC_SUPER, "com/zjl/template/GridViewActivityTest$TestOnItemClickListener", null, "java/lang/Object", new String[]{"android/widget/AdapterView$OnItemClickListener"});
+
+        cw.visitSource("GridViewActivityTest.java", null);
+
+        cw.visitInnerClass("android/widget/AdapterView$OnItemClickListener", "android/widget/AdapterView", "OnItemClickListener", ACC_PUBLIC + ACC_STATIC + ACC_ABSTRACT + ACC_INTERFACE);
+
+        cw.visitInnerClass("com/zjl/template/GridViewActivityTest$TestOnItemClickListener", "com/zjl/template/GridViewActivityTest", "TestOnItemClickListener", ACC_PUBLIC);
+
+        {
+            fv = cw.visitField(ACC_FINAL + ACC_SYNTHETIC, "this$0", "Lcom/zjl/template/GridViewActivityTest;", null, null);
+            fv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "<init>", "(Lcom/zjl/template/GridViewActivityTest;)V", null, null);
+            mv.visitCode();
+            Label l0 = new Label();
+            mv.visitLabel(l0);
+            mv.visitLineNumber(30, l0);
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitFieldInsn(PUTFIELD, "com/zjl/template/GridViewActivityTest$TestOnItemClickListener", "this$0", "Lcom/zjl/template/GridViewActivityTest;");
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+            mv.visitInsn(RETURN);
+            Label l1 = new Label();
+            mv.visitLabel(l1);
+            mv.visitLocalVariable("this", "Lcom/zjl/template/GridViewActivityTest$TestOnItemClickListener;", null, l0, l1, 0);
+            mv.visitMaxs(2, 2);
+            mv.visitEnd();
+        }
+        {
+            mv = cw.visitMethod(ACC_PUBLIC, "onItemClick", "(Landroid/widget/AdapterView;Landroid/view/View;IJ)V", "(Landroid/widget/AdapterView<*>;Landroid/view/View;IJ)V", null);
+            mv.visitCode();
+            Label l0 = new Label();
+            mv.visitLabel(l0);
+            mv.visitLineNumber(34, l0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitVarInsn(ALOAD, 2);
+            mv.visitVarInsn(ILOAD, 3);
+            mv.visitMethodInsn(INVOKESTATIC, "com/zjl/template/TrackAgent", "trackListView", "(Landroid/widget/AdapterView;Landroid/view/View;I)V", false);
+            Label l1 = new Label();
+            mv.visitLabel(l1);
+            mv.visitLineNumber(35, l1);
+            mv.visitInsn(RETURN);
+            Label l2 = new Label();
+            mv.visitLabel(l2);
+            mv.visitLocalVariable("this", "Lcom/zjl/template/GridViewActivityTest$TestOnItemClickListener;", null, l0, l2, 0);
+            mv.visitLocalVariable("adapterView", "Landroid/widget/AdapterView;", "Landroid/widget/AdapterView<*>;", l0, l2, 1);
+            mv.visitLocalVariable("view", "Landroid/view/View;", null, l0, l2, 2);
+            mv.visitLocalVariable("i", "I", null, l0, l2, 3);
+            mv.visitLocalVariable("l", "J", null, l0, l2, 4);
+            mv.visitMaxs(3, 6);
+            mv.visitEnd();
+        }
+        cw.visitEnd();
+
+        return cw.toByteArray();
+    }
+}
