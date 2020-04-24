@@ -1,13 +1,21 @@
 package com.auto.statistics.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.auto.statistics.R;
+import com.auto.statistics.proxy.AutoLogAgent;
+import com.auto.statistics.proxy.informative.TrackableViewHolder;
+import com.auto.statistics.proxy.informative.ViewHolderOnClickListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * @author shhe
@@ -34,7 +42,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return 30;
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder implements TrackableViewHolder {
 
         private TextView mTvItemName;
 
@@ -45,7 +53,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public void render() {
-            mTvItemName.setText("ite "+getAdapterPosition());
+            mTvItemName.setText("item "+getAdapterPosition());
+            itemView.setOnClickListener(new ViewHolderOnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    AutoLogAgent.trackRecyclerView(ItemViewHolder.this, getAdapterPosition(), v);
+                    Toast.makeText(itemView.getContext(), "item: "+getAdapterPosition(), Toast.LENGTH_LONG);
+                }
+            });
+        }
+
+        @Override
+        public JSONObject getItemTrackProperties(int position) throws JSONException {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("current position: ", position);
+            return jsonObject;
         }
     }
 

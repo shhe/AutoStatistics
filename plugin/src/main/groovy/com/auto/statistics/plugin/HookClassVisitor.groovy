@@ -9,6 +9,7 @@ import org.objectweb.asm.Opcodes
 import com.auto.statistics.utils.AnalyzeUtil
 
 class HookClassVisitor extends ClassVisitor implements Opcodes {
+    public static final String TAG = "HookClassVisitor"
     public static final String sInstrumentedAnnotationDesc = 'Lcom/auto/statistics/annotation/CodelessInstrumented;'
     public static final String sOnClickAnnotationDesc = 'Lcom/auto/statistics/annotation/OnClickView;'
     public static final String sNonInjectionAnnotationDesc = 'Lcom/auto/statistics/annotation/NonInjection;'
@@ -303,10 +304,22 @@ class HookClassVisitor extends ClassVisitor implements Opcodes {
                 }
 
                 if (mInterfaces != null && mInterfaces.length > 0) {
-                    HookMethodCell methodCell = HookConfig.sInterfaceMethods.get(nameDesc)
-                    if (methodCell != null && mInterfaces.contains(methodCell.parent)) {
-                        visitMethodWithLoadedParams(methodVisitor, Opcodes.INVOKESTATIC, HookConfig.sAgentClassName, methodCell.agentName, methodCell.agentDesc, methodCell.paramsStart, methodCell.paramsCount, methodCell.opcodes)
+                    if (mInterfaces.contains("com/auto/statistics/proxy/informative/ViewHolderOnClickListener")) {
+//                        Logger.info(TAG, "ViewHolderOnClickListener interfaces.length: "+mInterfaces.length)
+                        methodVisitor.visitVarInsn(Opcodes.ALOAD, 0)
+                        mv.visitFieldInsn(GETFIELD, 'com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder$1', 'this$0', 'Lcom/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder;');
+                        methodVisitor.visitVarInsn(Opcodes.ALOAD, 0)
+                        mv.visitFieldInsn(GETFIELD, 'com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder$1', 'this$0', 'Lcom/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder;');
+                        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, 'com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder', "getAdapterPosition", "()I", false)
+                        methodVisitor.visitVarInsn(Opcodes.ALOAD, 1)
+                        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, HookConfig.sAgentClassName, "trackRecyclerView", "(Lcom/auto/statistics/proxy/informative/TrackableViewHolder;ILandroid/view/View;)V", false)
                         isHasTracked = true
+                    } else {
+                        HookMethodCell methodCell = HookConfig.sInterfaceMethods.get(nameDesc)
+                        if (methodCell != null && mInterfaces.contains(methodCell.parent)) {
+                            visitMethodWithLoadedParams(methodVisitor, Opcodes.INVOKESTATIC, HookConfig.sAgentClassName, methodCell.agentName, methodCell.agentDesc, methodCell.paramsStart, methodCell.paramsCount, methodCell.opcodes)
+                            isHasTracked = true
+                        }
                     }
                 }
 

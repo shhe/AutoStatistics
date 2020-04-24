@@ -1,0 +1,55 @@
+package asm.com.auto.statistics.adapter;
+import java.util.*;
+import org.objectweb.asm.*;
+public class RecyclerAdapter$ItemViewHolder$1Dump implements Opcodes {
+
+public static byte[] dump () throws Exception {
+
+ClassWriter cw = new ClassWriter(0);
+FieldVisitor fv;
+MethodVisitor mv;
+AnnotationVisitor av0;
+
+cw.visit(V1_7, ACC_SUPER, "com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder$1", null, "java/lang/Object", new String[] { "com/auto/statistics/proxy/informative/ViewHolderOnClickListener" });
+
+cw.visitOuterClass("com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder", "render", "()V");
+
+cw.visitInnerClass("com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder", "com/auto/statistics/adapter/RecyclerAdapter", "ItemViewHolder", ACC_STATIC);
+
+cw.visitInnerClass("com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder$1", null, null, 0);
+
+{
+fv = cw.visitField(ACC_FINAL + ACC_SYNTHETIC, "this$0", "Lcom/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder;", null, null);
+fv.visitEnd();
+}
+{
+mv = cw.visitMethod(0, "<init>", "(Lcom/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder;)V", null, null);
+mv.visitCode();
+mv.visitVarInsn(ALOAD, 0);
+mv.visitVarInsn(ALOAD, 1);
+mv.visitFieldInsn(PUTFIELD, "com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder$1", "this$0", "Lcom/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder;");
+mv.visitVarInsn(ALOAD, 0);
+mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+mv.visitInsn(RETURN);
+mv.visitMaxs(2, 2);
+mv.visitEnd();
+}
+{
+mv = cw.visitMethod(ACC_PUBLIC, "onClick", "(Landroid/view/View;)V", null, null);
+mv.visitCode();
+mv.visitVarInsn(ALOAD, 0);
+mv.visitFieldInsn(GETFIELD, "com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder$1", "this$0", "Lcom/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder;");
+mv.visitVarInsn(ALOAD, 0);
+mv.visitFieldInsn(GETFIELD, "com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder$1", "this$0", "Lcom/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder;");
+mv.visitMethodInsn(INVOKEVIRTUAL, "com/auto/statistics/adapter/RecyclerAdapter$ItemViewHolder", "getAdapterPosition", "()I", false);
+mv.visitVarInsn(ALOAD, 1);
+mv.visitMethodInsn(INVOKESTATIC, "com/auto/statistics/proxy/AutoLogAgent", "trackRecyclerView", "(Lcom/auto/statistics/proxy/informative/TrackableViewHolder;ILandroid/view/View;)V", false);
+mv.visitInsn(RETURN);
+mv.visitMaxs(3, 2);
+mv.visitEnd();
+}
+cw.visitEnd();
+
+return cw.toByteArray();
+}
+}

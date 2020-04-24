@@ -35,6 +35,7 @@ import com.auto.statistics.annotation.IgnoreAutoTrackPageEvent;
 import com.auto.statistics.annotation.TrackableTitledFragment;
 import com.auto.statistics.proxy.informative.TrackableAdapter;
 import com.auto.statistics.proxy.informative.TrackableExpandableListAdapter;
+import com.auto.statistics.proxy.informative.TrackableViewHolder;
 import com.auto.statistics.proxy.util.AopUtil;
 import com.auto.statistics.proxy.util.DebugLogger;
 
@@ -1153,7 +1154,236 @@ public class AutoLogAgent {
         }
     }
 
-    // TODO:ZJL 2018/12/29 track recyclerview
+    public static void trackRecyclerView(TrackableViewHolder viewHolder, int position, View view) {
+        try {
+            //关闭 AutoTrack
+            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+                return;
+            }
+
+            //获取所在的 Context
+            Context context = view.getContext();
+
+            //将 Context 转成 Activity
+            Activity activity = AopUtil.getActivityFromContext(context, view);
+
+            //Activity 被忽略
+            if (activity != null) {
+                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                    return;
+                }
+            }
+
+            //View 被忽略
+            if (AopUtil.isViewIgnored(view)) {
+                return;
+            }
+
+            long currentOnClickTimestamp = System.currentTimeMillis();
+            String tag = (String) view.getTag(R.id.__codeless_analytics_tag_view_onclick_timestamp);
+            if (!TextUtils.isEmpty(tag)) {
+                try {
+                    long lastOnClickTimestamp = Long.parseLong(tag);
+                    if ((currentOnClickTimestamp - lastOnClickTimestamp) < 500) {
+                        return;
+                    }
+                } catch (Exception e) {
+                    DebugLogger.printStackTrace(e);
+                }
+            }
+            view.setTag(R.id.__codeless_analytics_tag_view_onclick_timestamp, String.valueOf(currentOnClickTimestamp));
+
+            JSONObject properties = new JSONObject();
+
+            AopUtil.addViewPathProperties(activity, view, properties);
+
+            //ViewId
+            String idString = AopUtil.getViewId(view);
+            if (!TextUtils.isEmpty(idString)) {
+                properties.put(Constants.ELEMENT_ID, idString);
+            }
+
+            //$screen_name & $screen_title
+            if (activity != null) {
+                properties.put(Constants.SCREEN_NAME, activity.getClass().getCanonicalName());
+                String activityTitle = AopUtil.getActivityTitle(activity);
+                if (!TextUtils.isEmpty(activityTitle)) {
+                    properties.put(Constants.SCREEN_TITLE, activityTitle);
+                }
+            }
+
+            String viewType = view.getClass().getCanonicalName();
+
+            Class<?> supportSwitchCompatClass = null;
+            Class<?> androidXSwitchCompatClass = null;
+            Class<?> currentSwitchCompatClass = null;
+            try {
+                supportSwitchCompatClass = Class.forName("android.support.v7.widget.SwitchCompat");
+            } catch (Exception e) {
+                //ignored
+            }
+
+            try {
+                androidXSwitchCompatClass = Class.forName("androidx.appcompat.widget.SwitchCompat");
+            } catch (Exception e) {
+                //ignored
+            }
+
+            if (supportSwitchCompatClass != null) {
+                currentSwitchCompatClass = supportSwitchCompatClass;
+            } else {
+                currentSwitchCompatClass = androidXSwitchCompatClass;
+            }
+
+            Class<?> supportViewPagerClass = null;
+            Class<?> androidXViewPagerClass = null;
+            Class<?> currentViewPagerClass = null;
+            try {
+                supportViewPagerClass = Class.forName("android.support.v4.view.ViewPager");
+            } catch (Exception e) {
+                //ignored
+            }
+
+            try {
+                androidXViewPagerClass = Class.forName("androidx.viewpager.widget.ViewPager");
+            } catch (Exception e) {
+                //ignored
+            }
+
+            if (supportViewPagerClass != null) {
+                currentViewPagerClass = supportViewPagerClass;
+            } else {
+                currentViewPagerClass = androidXViewPagerClass;
+            }
+
+            CharSequence viewText = null;
+            if (view instanceof CheckBox) { // CheckBox
+                viewType = "CheckBox";
+                CheckBox checkBox = (CheckBox) view;
+                viewText = checkBox.getText();
+            } else if (currentViewPagerClass != null && currentViewPagerClass.isInstance(view)) {
+                viewType = "ViewPager";
+                try {
+                    Method getAdapterMethod = view.getClass().getMethod("getAdapter");
+                    if (getAdapterMethod != null) {
+                        Object viewPagerAdapter = getAdapterMethod.invoke(view);
+                        Method getCurrentItemMethod = view.getClass().getMethod("getCurrentItem");
+                        if (getCurrentItemMethod != null) {
+                            int currentItem = (int) getCurrentItemMethod.invoke(view);
+                            properties.put(Constants.ELEMENT_POSITION, String.format(Locale.CHINA, "%d", currentItem));
+                            Method getPageTitleMethod = viewPagerAdapter.getClass().getMethod("getPageTitle", new Class[]{int.class});
+                            if (getPageTitleMethod != null) {
+                                viewText = (String) getPageTitleMethod.invoke(viewPagerAdapter, new Object[]{currentItem});
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    DebugLogger.printStackTrace(e);
+                }
+            } else if (currentSwitchCompatClass != null && currentSwitchCompatClass.isInstance(view)) {
+                viewType = "SwitchCompat";
+                CompoundButton switchCompat = (CompoundButton) view;
+                Method method;
+                if (switchCompat.isChecked()) {
+                    method = view.getClass().getMethod("getTextOn");
+                } else {
+                    method = view.getClass().getMethod("getTextOff");
+                }
+                viewText = (String) method.invoke(view);
+            } else if (view instanceof RadioButton) { // RadioButton
+                viewType = "RadioButton";
+                RadioButton radioButton = (RadioButton) view;
+                viewText = radioButton.getText();
+            } else if (view instanceof ToggleButton) { // ToggleButton
+                viewType = "ToggleButton";
+                ToggleButton toggleButton = (ToggleButton) view;
+                boolean isChecked = toggleButton.isChecked();
+                if (isChecked) {
+                    viewText = toggleButton.getTextOn();
+                } else {
+                    viewText = toggleButton.getTextOff();
+                }
+            } else if (view instanceof Button) { // Button
+                viewType = "Button";
+                Button button = (Button) view;
+                viewText = button.getText();
+            } else if (view instanceof CheckedTextView) { // CheckedTextView
+                viewType = "CheckedTextView";
+                CheckedTextView textView = (CheckedTextView) view;
+                viewText = textView.getText();
+            } else if (view instanceof TextView) { // TextView
+                viewType = "TextView";
+                TextView textView = (TextView) view;
+                viewText = textView.getText();
+            } else if (view instanceof ImageView) { // ImageView
+                viewType = "ImageView";
+                ImageView imageView = (ImageView) view;
+                if (!TextUtils.isEmpty(imageView.getContentDescription())) {
+                    viewText = imageView.getContentDescription().toString();
+                }
+            } else if (view instanceof RatingBar) {
+                viewType = "RatingBar";
+                RatingBar ratingBar = (RatingBar) view;
+                viewText = String.valueOf(ratingBar.getRating());
+            } else if (view instanceof SeekBar) {
+                viewType = "SeekBar";
+                SeekBar seekBar = (SeekBar) view;
+                viewText = String.valueOf(seekBar.getProgress());
+            } else if (view instanceof Spinner) {
+                viewType = "Spinner";
+                try {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    viewText = AopUtil.traverseView(stringBuilder, (ViewGroup) view);
+                    if (!TextUtils.isEmpty(viewText)) {
+                        viewText = viewText.toString().substring(0, viewText.length() - 1);
+                    }
+                } catch (Exception e) {
+                    DebugLogger.printStackTrace(e);
+                }
+            } else if (view instanceof ViewGroup) {
+                try {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    viewText = AopUtil.traverseView(stringBuilder, (ViewGroup) view);
+                    if (!TextUtils.isEmpty(viewText)) {
+                        viewText = viewText.toString().substring(0, viewText.length() - 1);
+                    }
+                } catch (Exception e) {
+                    DebugLogger.printStackTrace(e);
+                }
+            }
+
+            //$element_content
+            if (!TextUtils.isEmpty(viewText)) {
+                properties.put(Constants.ELEMENT_CONTENT, viewText.toString());
+            }
+
+            //$element_type
+            properties.put(Constants.ELEMENT_TYPE, viewType);
+
+            //fragmentName
+            AopUtil.getFragmentNameFromView(view, properties);
+
+            //获取 View 自定义属性
+            JSONObject p = (JSONObject) view.getTag(R.id.__codeless_analytics_tag_view_properties);
+            if (p != null) {
+                AopUtil.mergeJSONObject(p, properties);
+            }
+
+            //获取 扩展属性
+            try {
+                JSONObject jsonObject = viewHolder.getItemTrackProperties(position);
+                if (jsonObject != null) {
+                    AopUtil.mergeJSONObject(jsonObject, properties);
+                }
+            } catch (JSONException e) {
+                DebugLogger.printStackTrace(e);
+            }
+
+            Reporter.getInstance().reportElementClick(properties);
+        } catch (Exception e) {
+            DebugLogger.printStackTrace(e);
+        }
+    }
 
     public static void trackListView(AdapterView<?> adapterView, View view, int position) {
         try {
