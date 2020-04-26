@@ -19,7 +19,7 @@ class StatisticsPlugin implements Plugin<Project> {
         Properties properties = new Properties()
         if (project.rootProject.file('gradle.properties').exists()) {
             properties.load(project.rootProject.file('gradle.properties').newDataInputStream())
-            disablePlugin = Boolean.parseBoolean(properties.getProperty("disableCodelessPlugin", "false"))
+            disablePlugin = Boolean.parseBoolean(properties.getProperty("disableStatisticsPlugin", "false"))
         }
 
         if (!disablePlugin) {
@@ -31,7 +31,7 @@ class StatisticsPlugin implements Plugin<Project> {
                 Logger.setDebug(extension.debug)
             }
         } else {
-            Logger.error("------------您已自动埋点插件--------------")
+            Logger.error("------------你已开启自动埋点插件--------------")
         }
     }
 }

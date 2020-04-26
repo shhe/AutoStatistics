@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.auto.statistics.R;
-import com.auto.statistics.proxy.AutoLogAgent;
 import com.auto.statistics.proxy.informative.TrackableViewHolder;
 import com.auto.statistics.proxy.informative.ViewHolderOnClickListener;
 
@@ -57,7 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new ViewHolderOnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    AutoLogAgent.trackRecyclerView(ItemViewHolder.this, getAdapterPosition(), v);
+//                    AutoStatisticsAgent.trackRecyclerView(ItemViewHolder.this, getAdapterPosition(), v);
                     Toast.makeText(itemView.getContext(), "item: "+getAdapterPosition(), Toast.LENGTH_LONG).show();
                 }
             });

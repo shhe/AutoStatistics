@@ -21,7 +21,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.auto.statistics.proxy.AutoLogConfig;
+import com.auto.statistics.proxy.AutoStatisticsConfig;
 import com.auto.statistics.proxy.Constants;
 import com.auto.statistics.proxy.R;
 
@@ -290,7 +290,7 @@ public class AopUtil {
                 return true;
             }
 
-            List<Class> mIgnoredViewTypeList = AutoLogConfig.sharedInstance().getIgnoredViewTypeList();
+            List<Class> mIgnoredViewTypeList = AutoStatisticsConfig.sharedInstance().getIgnoredViewTypeList();
             if (mIgnoredViewTypeList != null) {
                 for (Class clazz : mIgnoredViewTypeList) {
                     if (clazz.isAssignableFrom(viewType)) {
@@ -319,7 +319,7 @@ public class AopUtil {
             }
 
             //ViewType 被忽略
-            List<Class> mIgnoredViewTypeList = AutoLogConfig.sharedInstance().getIgnoredViewTypeList();
+            List<Class> mIgnoredViewTypeList = AutoStatisticsConfig.sharedInstance().getIgnoredViewTypeList();
             if (mIgnoredViewTypeList != null) {
                 for (Class clazz : mIgnoredViewTypeList) {
                     if (clazz.isAssignableFrom(view.getClass())) {

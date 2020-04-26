@@ -16,8 +16,8 @@ import java.util.Set;
 /**
  * Created by zjl on 2018/12/28.
  */
-public final class AutoLogConfig {
-    private static volatile AutoLogConfig sInstance;
+public final class AutoStatisticsConfig {
+    private static volatile AutoStatisticsConfig sInstance;
 
     private boolean mEnableAutoTrack;
     private boolean mEnableReactNativeAutoTrack;
@@ -29,14 +29,14 @@ public final class AutoLogConfig {
     // 不需要采集页面事件的Activities
     private List<Integer> mAutoTrackIgnoredActivities;
 
-    private AutoLogConfig() {
+    private AutoStatisticsConfig() {
     }
 
-    public static AutoLogConfig sharedInstance() {
+    public static AutoStatisticsConfig sharedInstance() {
         if (sInstance == null) {
-            synchronized (AutoLogConfig.class) {
+            synchronized (AutoStatisticsConfig.class) {
                 if (sInstance == null) {
-                    sInstance = new AutoLogConfig();
+                    sInstance = new AutoStatisticsConfig();
                 }
             }
         }

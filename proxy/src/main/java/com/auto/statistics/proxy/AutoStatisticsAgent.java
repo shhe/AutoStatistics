@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Locale;
 
 @SuppressWarnings("unused")
-public class AutoLogAgent {
+public class AutoStatisticsAgent {
     private static HashMap<Integer, Long> eventTimestamp = new HashMap<>();
 
     private static boolean isDeBounceTrack(Object object) {
@@ -149,11 +149,11 @@ public class AutoLogAgent {
     public static void trackRN(Object target, int reactTag, int s, boolean b) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
-            if (!AutoLogConfig.sharedInstance().isReactNativeAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isReactNativeAutoTrackEnabled()) {
                 return;
             }
 
@@ -212,7 +212,7 @@ public class AutoLogAgent {
      */
     private static void trackFragmentEnterExit(Object fragment, boolean isEnter) {
         try {
-            if (!AutoLogConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
                 return;
             }
 
@@ -220,8 +220,8 @@ public class AutoLogAgent {
                 return;
             }
 
-//            Set<Integer> fragmentsSets = AutoLogConfig.sharedInstance().getAutoTrackFragments();
-            boolean isAutoTrackFragment = AutoLogConfig.sharedInstance().isFragmentAutoTrackAppViewScreen(fragment.getClass());
+//            Set<Integer> fragmentsSets = AutoStatisticsConfig.sharedInstance().getAutoTrackFragments();
+            boolean isAutoTrackFragment = AutoStatisticsConfig.sharedInstance().isFragmentAutoTrackAppViewScreen(fragment.getClass());
             if (!isAutoTrackFragment) {
                 return;
             }
@@ -271,7 +271,7 @@ public class AutoLogAgent {
 
 
     public static void trackFragmentResume(Object object) {
-        if (!AutoLogConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
+        if (!AutoStatisticsConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
             return;
         }
 
@@ -300,7 +300,7 @@ public class AutoLogAgent {
     }
 
     public static void trackFragmentPause(Object object) {
-        if (!AutoLogConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
+        if (!AutoStatisticsConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
             return;
         }
 
@@ -353,7 +353,7 @@ public class AutoLogAgent {
     }
 
     public static void trackFragmentSetUserVisibleHint(Object object, boolean isVisibleToUser) {
-        if (!AutoLogConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
+        if (!AutoStatisticsConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
             return;
         }
 
@@ -402,7 +402,7 @@ public class AutoLogAgent {
     }
 
     public static void trackOnHiddenChanged(Object object, boolean hidden) {
-        if (!AutoLogConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
+        if (!AutoStatisticsConfig.sharedInstance().isFragmentPageEventAutoTrackEnabled()) {
             return;
         }
 
@@ -442,7 +442,7 @@ public class AutoLogAgent {
                                                            int groupPosition) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -460,7 +460,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -549,7 +549,7 @@ public class AutoLogAgent {
                                                            int groupPosition, int childPosition) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -564,7 +564,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -655,7 +655,7 @@ public class AutoLogAgent {
     public static void trackTabHost(String tabName) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -678,7 +678,7 @@ public class AutoLogAgent {
     public static void trackTabLayoutSelected(Object object, Object tab) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -737,7 +737,7 @@ public class AutoLogAgent {
             }
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -847,7 +847,7 @@ public class AutoLogAgent {
     public static void trackMenuItem(Object object, MenuItem menuItem) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -875,7 +875,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -923,7 +923,7 @@ public class AutoLogAgent {
     public static void trackRadioGroup(RadioGroup view, int checkedId) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -938,7 +938,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -1004,7 +1004,7 @@ public class AutoLogAgent {
     public static void trackDialog(DialogInterface dialogInterface, int whichButton) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -1033,7 +1033,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -1157,7 +1157,7 @@ public class AutoLogAgent {
     public static void trackRecyclerView(TrackableViewHolder viewHolder, int position, View view) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -1169,7 +1169,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -1388,7 +1388,7 @@ public class AutoLogAgent {
     public static void trackListView(AdapterView<?> adapterView, View view, int position) {
         try {
             //闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -1403,7 +1403,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }
@@ -1415,7 +1415,7 @@ public class AutoLogAgent {
 
             JSONObject properties = new JSONObject();
 
-            List<Class> mIgnoredViewTypeList = AutoLogConfig.sharedInstance().getIgnoredViewTypeList();
+            List<Class> mIgnoredViewTypeList = AutoStatisticsConfig.sharedInstance().getIgnoredViewTypeList();
             if (mIgnoredViewTypeList != null) {
                 if (adapterView instanceof ListView) {
                     properties.put(Constants.ELEMENT_TYPE, "ListView");
@@ -1503,7 +1503,7 @@ public class AutoLogAgent {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(Constants.ELEMENT_CONTENT, "Open");
 
-            AutoLogConfig.sharedInstance().setViewProperties(view, jsonObject);
+            AutoStatisticsConfig.sharedInstance().setViewProperties(view, jsonObject);
 
             trackViewOnClick(view);
         } catch (Exception e) {
@@ -1516,7 +1516,7 @@ public class AutoLogAgent {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(Constants.ELEMENT_CONTENT, "Close");
 
-            AutoLogConfig.sharedInstance().setViewProperties(view, jsonObject);
+            AutoStatisticsConfig.sharedInstance().setViewProperties(view, jsonObject);
 
             trackViewOnClick(view);
         } catch (Exception e) {
@@ -1527,7 +1527,7 @@ public class AutoLogAgent {
     public static void trackViewOnClick(View view) {
         try {
             //关闭 AutoTrack
-            if (!AutoLogConfig.sharedInstance().isAutoTrackEnabled()) {
+            if (!AutoStatisticsConfig.sharedInstance().isAutoTrackEnabled()) {
                 return;
             }
 
@@ -1539,7 +1539,7 @@ public class AutoLogAgent {
 
             //Activity 被忽略
             if (activity != null) {
-                if (AutoLogConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
+                if (AutoStatisticsConfig.sharedInstance().isActivityAutoTrackAppClickIgnored(activity.getClass())) {
                     return;
                 }
             }

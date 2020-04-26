@@ -2,7 +2,7 @@ package com.auto.statistics;
 
 import android.app.Application;
 
-import com.auto.statistics.proxy.AutoLogConfig;
+import com.auto.statistics.proxy.AutoStatisticsConfig;
 import com.auto.statistics.proxy.util.DebugLogger;
 
 /**
@@ -16,7 +16,7 @@ public class CustomApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        AutoLogConfig.sharedInstance().switchAutoTrack(true);
+        AutoStatisticsConfig.sharedInstance().switchAutoTrack(true);
         DebugLogger.config(true);
     }
 }

@@ -6,7 +6,7 @@ import android.util.Log;
  * Created by zjl on 2018/12/28.
  */
 public class DebugLogger {
-    private static final String TAG = "CODELESS";
+    private static final String TAG = "AUTO_STATISTICS";
     private static boolean enabled = false;
 
     private DebugLogger() {

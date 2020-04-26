@@ -13,7 +13,7 @@ class HookClassVisitor extends ClassVisitor implements Opcodes {
     public static final String sInstrumentedAnnotationDesc = 'Lcom/auto/statistics/annotation/CodelessInstrumented;'
     public static final String sOnClickAnnotationDesc = 'Lcom/auto/statistics/annotation/OnClickView;'
     public static final String sNonInjectionAnnotationDesc = 'Lcom/auto/statistics/annotation/NonInjection;'
-    public static final String sEventAnnotationDesc = 'Lcom/auto/statistics/annotation/AutoLogEvent;'
+    public static final String sEventAnnotationDesc = 'Lcom/auto/statistics/annotation/AutoStatisticsEvent;'
 
     private String mClassName
     private String mSuperName
@@ -359,7 +359,7 @@ class HookClassVisitor extends ClassVisitor implements Opcodes {
                 }
 
                 if (s == sEventAnnotationDesc) {
-                    Logger.info("发现 ${name}${desc} 有注解 @AutoLogEvent in ${mClassName}")
+                    Logger.info("发现 ${name}${desc} 有注解 @AutoStatisticsEvent in ${mClassName}")
 
                     return new AnnotationVisitor(Opcodes.ASM6) {
                         @Override

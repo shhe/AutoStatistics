@@ -5,7 +5,7 @@ import jdk.internal.org.objectweb.asm.Opcodes
 
 class HookConfig {
 
-    public static final String sAgentClassName = "com/auto/statistics/proxy/AutoLogAgent"
+    public static final String sAgentClassName = "com/auto/statistics/proxy/AutoStatisticsAgent"
 
     public final
     static HashMap<String, HookMethodCell> sInterfaceMethods = new HashMap<>()

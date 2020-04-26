@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AutoLogEvent {
+public @interface AutoStatisticsEvent {
     String eventName() default "";
 
     String properties() default "{}";
