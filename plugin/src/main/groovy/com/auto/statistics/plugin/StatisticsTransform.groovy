@@ -16,16 +16,16 @@ import java.util.jar.JarFile
 import java.util.jar.JarOutputStream
 import java.util.zip.ZipEntry
 
-class LogTransform extends Transform {
-    private LogTransformHelper transformHelper
+class StatisticsTransform extends Transform {
+    private StatisticsTransformHelper transformHelper
 
-    LogTransform(LogTransformHelper transformHelper) {
+    StatisticsTransform(StatisticsTransformHelper transformHelper) {
         this.transformHelper = transformHelper
     }
 
     @Override
     String getName() {
-        return "CodelessLogTransform"
+        return "StatisticsTransform"
     }
 
     @Override

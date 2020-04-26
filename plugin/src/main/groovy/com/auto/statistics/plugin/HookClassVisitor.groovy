@@ -20,13 +20,13 @@ class HookClassVisitor extends ClassVisitor implements Opcodes {
     private String[] mInterfaces
 
     private ClassVisitor classVisitor
-    private LogTransformHelper transformHelper
+    private StatisticsTransformHelper transformHelper
     private ClassAnalysis classNameAnalytics
 
     private HashSet<String> visitedFragmentMethods = new HashSet<>()// 无需判空
 
     HookClassVisitor(
-            final ClassVisitor classVisitor, ClassAnalysis classNameAnalytics, LogTransformHelper transformHelper) {
+            final ClassVisitor classVisitor, ClassAnalysis classNameAnalytics, StatisticsTransformHelper transformHelper) {
         super(Opcodes.ASM6, classVisitor)
         this.classVisitor = classVisitor
         this.classNameAnalytics = classNameAnalytics

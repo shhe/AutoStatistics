@@ -5,15 +5,15 @@ import com.auto.statistics.utils.Logger
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class LogPlugin implements Plugin<Project> {
+class StatisticsPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        Logger.error("------------apply LogPlugin--------------")
+        Logger.error("------------apply StatisticsPlugin--------------")
 
         Object extension = project.extensions.create(
-                "CodelessLog",
-                LogExtension)
+                "AutoStatisticsConfig",
+                StatisticsExtension)
 
         boolean disablePlugin = false
         Properties properties = new Properties()
@@ -24,14 +24,14 @@ class LogPlugin implements Plugin<Project> {
 
         if (!disablePlugin) {
             AppExtension android = project.extensions.getByType(AppExtension.class)
-            LogTransform transform = new LogTransform(new LogTransformHelper(extension))
+            StatisticsTransform transform = new StatisticsTransform(new StatisticsTransformHelper(extension))
             android.registerTransform(transform)
 
             project.afterEvaluate {
                 Logger.setDebug(extension.debug)
             }
         } else {
-            Logger.error("------------您已关闭无痕埋点插件--------------")
+            Logger.error("------------您已自动埋点插件--------------")
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.auto.statistics.plugin
 
-class LogExtension {
+class StatisticsExtension {
     boolean debug = false
     boolean disableJar = false
     boolean useInclude = false

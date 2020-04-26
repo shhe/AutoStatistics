@@ -1,6 +1,6 @@
 package com.auto.statistics.plugin
 
-class LogTransformHelper {
+class StatisticsTransformHelper {
 
     Object extension
 
@@ -14,7 +14,7 @@ class LogTransformHelper {
                                'com.jakewharton.rxbinding.view.ViewClickOnSubscribe',
                                'com.facebook.react.uimanager.NativeViewHierarchyManager']
 
-    LogTransformHelper(Object extension) {
+    StatisticsTransformHelper(Object extension) {
         this.extension = extension
     }
 
