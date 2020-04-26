@@ -58,7 +58,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View v) {
 //                    AutoLogAgent.trackRecyclerView(ItemViewHolder.this, getAdapterPosition(), v);
-                    Toast.makeText(itemView.getContext(), "item: "+getAdapterPosition(), Toast.LENGTH_LONG);
+                    Toast.makeText(itemView.getContext(), "item: "+getAdapterPosition(), Toast.LENGTH_LONG).show();
                 }
             });
         }
